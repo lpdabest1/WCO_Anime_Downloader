@@ -172,7 +172,8 @@ def login_and_scrape():
                             if chunk:
                                 video_file.write(chunk)
 
-                    download_results.append(f"Episode '{highest_quality_text}' downloaded and saved to: {video_path}")
+                    #download_results.append(f"Episode '{highest_quality_text}' downloaded and saved to: {video_path}")
+                    download_results.append(f"{highest_quality_text} downloaded and saved to: {video_path}")
                     log_message(f"Downloaded {video_filename} to {video_path}")
                 else:
                     download_results.append(f"No valid video links found for episode: {section_text}")

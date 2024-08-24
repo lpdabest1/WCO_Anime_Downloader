@@ -30,9 +30,31 @@
       <!--<p>{{ results.message }}</p>-->
       <h3>{{ results.anime_title }}</h3>
       <img v-if="results.image_data_url" :src="results.image_data_url" alt="Anime Image" />
+
+      <!-- Display Anime Episodes in a Table -->
+      <table v-if="results.downloads.length" border="1" cellspacing="0" cellpadding="5">
+        <thead>
+          <tr>
+            <th>Episodes</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(result, index) in results.downloads" :key="index">
+            <!---<td>{{ getEpisodeName(result) }}</td>-->
+          <td>{{ result.split(" downloaded and saved to:")[0] }}</td>
+            <td>Downloaded</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--
       <ul>
         <li v-for="(result, index) in results.downloads" :key="index">{{ result }}</li>
       </ul>
+      -->
+
+
       <!-- Optionally, display the image path -->
       <p v-if="results.image_path">Image saved at: {{ results.image_path }}</p>
       <p>{{ results.message }}</p>
@@ -82,6 +104,18 @@ export default {
       } catch (error) {
         console.error('Error during scraping:', error);
       }
+    },
+    getEpisodeName(result){
+      // Assuming the prefix is known and consistent and optional 'Episode' string
+      const prefix = 'Episode downloaded and saved to: ';
+      // Check if the result contains the prefix
+      if (result.includes(prefix)){
+        // Remove the combined prefix and suffix from the result
+        return result.replace(prefix, '').trim();
+    }
+          // Return the original result if the prefix is not found
+    return result;
+      
     }
   }
 };
@@ -89,4 +123,18 @@ export default {
 
 <style scoped>
 /* Add your styles here */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
 </style>
